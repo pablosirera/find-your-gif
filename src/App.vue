@@ -2,21 +2,25 @@
   <div id="app">
     <BaseHeader class="app-header" />
 
-    <AuthLogin />
+    <section class="auth-section" v-if="!isLogged">
+      <AuthLogin @login="changeLogged" />
+    </section>
 
-    <GifFilters
-      @filter="searchGif"
-      @change-limit="updateLimit"
-      :limit-number="limitNumber"
-    />
+    <section v-else>
+      <GifFilters
+        @filter="searchGif"
+        @change-limit="updateLimit"
+        :limit-number="limitNumber"
+      />
 
-    <GifsList :gifs-list="searchedGifs">
-      <h1>Gifs buscados</h1>
-    </GifsList>
+      <GifsList :gifs-list="searchedGifs">
+        <h1>Gifs buscados</h1>
+      </GifsList>
 
-    <GifsList :gifs-list="trendingGifs">
-      <h1>Trending Gifs</h1>
-    </GifsList>
+      <GifsList :gifs-list="trendingGifs">
+        <h1>Trending Gifs</h1>
+      </GifsList>
+    </section>
   </div>
 </template>
 
@@ -39,6 +43,7 @@ export default {
       trendingGifs: [],
       searchedGifs: [],
       limitNumber: 10,
+      isLogged: false,
     }
   },
   created() {
@@ -64,6 +69,9 @@ export default {
     updateLimit(limit) {
       this.limitNumber = limit
     },
+    changeLogged() {
+      this.isLogged = true
+    },
   },
 }
 </script>
@@ -79,5 +87,13 @@ export default {
 
 .app-header {
   margin-bottom: 30px;
+}
+
+.auth-section {
+  display: flex;
+  justify-content: center;
+  background-color: #ececec;
+  padding: 40px 0;
+  margin-bottom: 20px;
 }
 </style>

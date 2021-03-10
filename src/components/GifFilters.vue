@@ -1,19 +1,34 @@
 <template>
   <div class="gif-filters">
-    <BaseInput type="text" name="searchText" />
-    <input v-model="searchText" type="text" @keyup.enter="search" />
-    <input v-model="limit" @input="changeLimit" type="number" />
-    <button @click="search" :disabled="!searchText">Buscar</button>
+    <BaseInput
+      v-model="searchText"
+      type="text"
+      name="searchText"
+      @keyup-enter="search"
+    />
+
+    <BaseInput
+      v-model="limit"
+      @input="changeLimit"
+      type="number"
+      name="limit"
+    />
+
+    <BaseButton @click="search" :disabled="!searchText" theme="primary">
+      Buscar
+    </BaseButton>
   </div>
 </template>
 
 <script>
 import BaseInput from '@/components/BaseInput.vue'
+import BaseButton from '@/components/BaseButton.vue'
 
 export default {
   name: 'GifFilters',
   components: {
     BaseInput,
+    BaseButton,
   },
   props: {
     limitNumber: {
