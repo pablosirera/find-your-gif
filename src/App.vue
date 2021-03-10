@@ -1,78 +1,16 @@
 <template>
   <div id="app">
-    <BaseHeader class="app-header" />
-
-    <section class="auth-section" v-if="!isLogged">
-      <AuthLogin @login="changeLogged" />
-    </section>
-
-    <section v-else>
-      <GifFilters
-        @filter="searchGif"
-        @change-limit="updateLimit"
-        :limit-number="limitNumber"
-      />
-
-      <GifsList :gifs-list="searchedGifs">
-        <h1>Gifs buscados</h1>
-      </GifsList>
-
-      <GifsList :gifs-list="trendingGifs">
-        <h1>Trending Gifs</h1>
-      </GifsList>
-    </section>
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/login">Login</router-link>
+    </div>
+    <router-view />
   </div>
 </template>
 
 <script>
-import GifFilters from '@/components/GifFilters.vue'
-import GifsList from '@/components/GifsList.vue'
-import BaseHeader from '@/components/BaseHeader.vue'
-import AuthLogin from '@/components/AuthLogin.vue'
-
 export default {
   name: 'App',
-  components: {
-    GifFilters,
-    GifsList,
-    BaseHeader,
-    AuthLogin,
-  },
-  data() {
-    return {
-      trendingGifs: [],
-      searchedGifs: [],
-      limitNumber: 10,
-      isLogged: false,
-    }
-  },
-  created() {
-    this.loadData()
-  },
-  methods: {
-    async loadData() {
-      const params = `&limit=${this.limitNumber}`
-      const response = await fetch(
-        `https://api.giphy.com/v1/gifs/trending?api_key=4z4OuOSfN7HPOu4CJCNEYbBoOJCxrfYB${params}`
-      )
-      const { data } = await response.json()
-      this.trendingGifs = data
-    },
-    async searchGif(searchText) {
-      const params = `&limit=${this.limitNumber}&q=${searchText}`
-      const response = await fetch(
-        `https://api.giphy.com/v1/gifs/search?api_key=4z4OuOSfN7HPOu4CJCNEYbBoOJCxrfYB${params}`
-      )
-      const { data } = await response.json()
-      this.searchedGifs = data
-    },
-    updateLimit(limit) {
-      this.limitNumber = limit
-    },
-    changeLogged() {
-      this.isLogged = true
-    },
-  },
 }
 </script>
 
@@ -85,15 +23,16 @@ export default {
   color: #2c3e50;
 }
 
-.app-header {
-  margin-bottom: 30px;
-}
+#nav {
+  padding: 30px;
 
-.auth-section {
-  display: flex;
-  justify-content: center;
-  background-color: #ececec;
-  padding: 40px 0;
-  margin-bottom: 20px;
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
 }
 </style>
