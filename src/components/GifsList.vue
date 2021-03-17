@@ -4,7 +4,12 @@
       <h1>{{ title }}</h1>
     </slot>
     <div class="gifs-wrapper">
-      <div class="gif" v-for="(gif, index) in gifsList" :key="index">
+      <div
+        class="gif"
+        v-for="(gif, index) in gifsList"
+        :key="index"
+        @click="selectGif(gif)"
+      >
         <img v-if="gif.images.original" :src="gif.images.original.url" />
         <span class="gif-text">{{ gif.title }}</span>
       </div>
@@ -23,6 +28,11 @@ export default {
     gifsList: {
       type: Array,
       default: () => [],
+    },
+  },
+  methods: {
+    selectGif({ id, title }) {
+      this.$emit('select-gif', { id, title })
     },
   },
 }

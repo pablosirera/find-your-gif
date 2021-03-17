@@ -13,7 +13,7 @@
         <h1>Gifs buscados</h1>
       </GifsList>
 
-      <GifsList :gifs-list="trendingGifs">
+      <GifsList :gifs-list="trendingGifs" @select-gif="goToDetail">
         <h1>Trending Gifs</h1>
       </GifsList>
     </section>
@@ -61,6 +61,12 @@ export default {
     },
     updateLimit(limit) {
       this.limitNumber = limit
+    },
+    goToDetail(gif) {
+      this.$router.push({
+        name: 'Detail',
+        params: gif,
+      })
     },
   },
 }

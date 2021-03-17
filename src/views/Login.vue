@@ -1,5 +1,5 @@
 <template>
-  <section class="auth-section" v-if="!isLogged">
+  <section class="auth-section">
     <AuthLogin @login="changeLogged" />
   </section>
 </template>
