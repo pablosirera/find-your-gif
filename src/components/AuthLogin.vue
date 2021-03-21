@@ -1,6 +1,12 @@
 <template>
   <form @submit.prevent="onSubmit" class="form-login">
+    {{ $store.state.auth.userData.name }}
     <div class="login-inputs">
+      <BaseInput
+        v-model="formName"
+        name="name"
+        placeholder="Introduce nombre"
+      />
       <BaseInput
         v-model="form.email"
         name="email"
@@ -37,9 +43,19 @@ export default {
       },
     }
   },
+  computed: {
+    formName: {
+      get() {
+        return this.$store.state.auth.userData.name
+      },
+      set(newValue) {
+        this.$store.commit('auth/updateUserName', newValue)
+      },
+    },
+  },
   methods: {
     onSubmit() {
-      this.$emit('login', { ...this.form })
+      this.$emit('login', { ...this.$store.state.auth.userData, ...this.form })
     },
   },
 }

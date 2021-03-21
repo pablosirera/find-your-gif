@@ -13,8 +13,13 @@ export default {
     AuthLogin,
   },
   methods: {
-    changeLogged() {
-      this.$router.push({ name: 'Home' })
+    changeLogged(data) {
+      try {
+        this.$store.dispatch('auth/login', data)
+        this.$router.push({ name: 'Home' })
+      } catch (error) {
+        console.error(error)
+      }
     },
   },
 }

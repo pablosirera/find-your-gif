@@ -24,6 +24,7 @@
 import GifFilters from '@/components/GifFilters.vue'
 import GifsList from '@/components/GifsList.vue'
 import BaseHeader from '@/components/BaseHeader.vue'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'Home',
@@ -34,22 +35,25 @@ export default {
   },
   data() {
     return {
-      trendingGifs: [],
       searchedGifs: [],
       limitNumber: 10,
     }
+  },
+  computed: {
+    trendingGifs() {
+      return this.$store.state.gifs.allGifs
+    },
   },
   created() {
     this.loadData()
   },
   methods: {
-    async loadData() {
+    ...mapActions({
+      listGifs: 'gifs/listGifs',
+    }),
+    loadData() {
       const params = `&limit=${this.limitNumber}`
-      const response = await fetch(
-        `https://api.giphy.com/v1/gifs/trending?api_key=4z4OuOSfN7HPOu4CJCNEYbBoOJCxrfYB${params}`
-      )
-      const { data } = await response.json()
-      this.trendingGifs = data
+      this.listGifs(params)
     },
     async searchGif(searchText) {
       const params = `&limit=${this.limitNumber}&q=${searchText}`
