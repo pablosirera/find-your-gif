@@ -17,9 +17,4 @@ export default {
       commit('setGifs', data)
     },
   },
-  getters: {
-    gifsNames(state) {
-      return state.allGifs.map(gif => gif.title)
-    },
-  },
 }
