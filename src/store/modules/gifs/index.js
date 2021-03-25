@@ -1,3 +1,5 @@
+import axios from '@/axios'
+
 export default {
   namespaced: true,
   state: {
@@ -10,11 +12,14 @@ export default {
   },
   actions: {
     async listGifs({ commit }, params) {
-      const response = await fetch(
-        `https://api.giphy.com/v1/gifs/trending?api_key=${process.env.VUE_APP_API_KEY_GIPHY}${params}`
-      )
-      const { data } = await response.json()
-      commit('setGifs', data)
+      try {
+        const { data } = await axios.get(`gifs/trending`, {
+          params: { api_key: process.env.VUE_APP_API_KEY_GIPHY, ...params },
+        })
+        commit('setGifs', data.data)
+      } catch (error) {
+        console.error(error)
+      }
     },
   },
 }

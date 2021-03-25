@@ -52,8 +52,7 @@ export default {
       listGifs: 'gifs/listGifs',
     }),
     loadData() {
-      const params = `&limit=${this.limitNumber}`
-      this.listGifs(params)
+      this.listGifs({ limit: this.limitNumber })
     },
     async searchGif(searchText) {
       const params = `&limit=${this.limitNumber}&q=${searchText}`
